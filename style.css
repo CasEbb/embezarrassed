@@ -8,12 +8,14 @@ body {
     overflow: hidden;
 }
 
+.template {
+    display: none;
+}
+
+
 table.accounts {
     width: 100%;
     border-collapse:  collapse;
-}
-table.accounts tr.template {
-    display: none;
 }
 table.accounts tr.highlight {
     background-color: #b3ffaf;
@@ -38,3 +40,32 @@ table.accounts tr .tp { width: 15%; }
 table.accounts tr .rrcl { width: 20%; }
 table.accounts tr .to_pk { width: 20%; }
 
+
+
+
+div.transfer {
+    border: 3px solid #b3ffaf;
+    background-color: #000;
+    width: 50%;
+    height: 5em;
+    position: absolute;
+    top: 0px;
+}
+div.transfer div.transferring {
+    float: left;
+    white-space: nowrap;
+}
+div.transfer div.transferring span.percent {
+    margin-right: 1em;
+}
+div.transfer div.progressbar {
+    white-space: nowrap;
+    overflow: hidden;
+}
+div.transfer div.progressbar div.fill {
+    background-color: #b3ffaf;
+    width: 0%;
+}
+div.transfer div.password {
+    overflow: hidden;
+}

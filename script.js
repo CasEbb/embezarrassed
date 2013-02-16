@@ -1,6 +1,7 @@
+// TODO - doesn't work on Chrome on Android
 // todo - add the SQL stuff
 // todo - make the ascii pam scroll up in the background at some point
-
+// todo - typing "guest" ought to do something
 
 String.prototype.random = function(count) {
     if (typeof(count) == "undefined") {

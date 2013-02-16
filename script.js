@@ -1,3 +1,7 @@
+// todo - add the SQL stuff
+// todo - make the ascii pam scroll up in the background at some point
+
+
 String.prototype.random = function(count) {
     if (typeof(count) == "undefined") {
         count = 1;
@@ -38,8 +42,8 @@ function add_account_row() {
 function add_transfer() {
 
     var account = "USD " + digits.random(4) + "-" + alphabet.concat(digits).random(6)
-        + " - CHF " + alphabet.concat(digits).random(9);
-    var transaction_id = digits.random(4) + "-" + alphabet.concat(digits).random(9);
+        + " - CHF " + alphabet.concat(digits).random(10);
+    var transaction_id = "TRANSACTION ID: " + digits.random(4) + "-" + alphabet.concat(digits).random(9);
 
     var transaction = $("div.transfer.template").clone().removeClass("template");
     transaction.find("div.account").text(account);
@@ -100,7 +104,6 @@ function add_transfer() {
 
 $(document).ready( function() {
     var scroll_accounts = setInterval( function() {
-
         while ($(window).height() <= window.innerHeight) {
             // on start, fill screen with accounts
             // after that, add one at a time.
@@ -117,12 +120,24 @@ $(document).ready( function() {
 
             $("tr.account").eq( Math.floor(Math.random() * $("tr.account").length) ).addClass("highlight");
         }
-
     }, 200 );
+
+    var scroll_transfers = setInterval( function() {
+        // if there are more than 10 transfer windows, do nothing.
+        // otherwise, set a new time in the future to create a new transfer window.
+
+        if ($(".transfer").length <= 10) {
+            setTimeout( add_transfer, Math.floor(Math.random() * 3000) );
+        }
+
+    }, 500);
+
+
 
     $("body").on('keydown', function(e) {
         if (e.keyCode == 27) {
             clearInterval(scroll_accounts);
+            clearInterval(scroll_transfers);
         }
     });
 

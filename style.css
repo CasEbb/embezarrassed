@@ -44,9 +44,10 @@ table.accounts tr .to_pk { width: 20%; }
 
 
 div.transfer {
+    padding: .5em;
     border: 3px solid #b3ffaf;
     background-color: #000;
-    width: 50%;
+    width: 30em;
     height: 5em;
     position: absolute;
     top: 0px;

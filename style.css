@@ -1,0 +1,40 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: #000;
+    color: #b3ffaf;
+    font-family: courier new, courier, fixed-width;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+table.accounts {
+    width: 100%;
+    border-collapse:  collapse;
+}
+table.accounts tr.template {
+    display: none;
+}
+table.accounts tr.highlight {
+    background-color: #b3ffaf;
+    color: #000;
+}
+
+table.accounts tr th {
+    font-size: 3em;
+}
+table.accounts tr td {
+    font-size: 2em;
+}
+
+table.accounts tr th, table.accounts tr td {
+    border: 3px solid #b3ffaf;
+    border-width: 0px 3px 0px;
+    text-align: center;
+}
+table.accounts tr .pk { width: 10%; }
+table.accounts tr .acct_num { width: 35%; }
+table.accounts tr .tp { width: 15%; }
+table.accounts tr .rrcl { width: 20%; }
+table.accounts tr .to_pk { width: 20%; }
+

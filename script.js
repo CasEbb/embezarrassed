@@ -41,34 +41,33 @@ function add_account_row() {
 }
 
 function add_transfer() {
-
     var account = "USD " + digits.random(4) + "-" + alphabet.concat(digits).random(6)
         + " - CHF " + alphabet.concat(digits).random(10);
     var transaction_id = "TRANSACTION ID: " + digits.random(4) + "-" + alphabet.concat(digits).random(9);
 
-    var transaction = $("div.transfer.template").clone().removeClass("template");
-    transaction.find("div.account").text(account);
-    transaction.find("div.transaction").text(transaction_id);
-    transaction.find('div.progressbar div.fill').data('width', 0);
-    transaction.css("top", Math.floor(Math.random() * (window.innerHeight - transaction.height())));
-    transaction.css("left", Math.floor(Math.random() * (window.innerWidth - transaction.width())));
-    $("body").append( transaction );
+    var transfer = $("div.transfer.template").clone().removeClass("template");
+    transfer.find("div.account").text(account);
+    transfer.find("div.transaction").text(transaction_id);
+    transfer.find('div.progressbar div.fill').data('width', 0);
+    transfer.css("top", Math.floor(Math.random() * (window.innerHeight - $(".transfer.template").height() - parseInt($(".transfer.template").css('padding-right').slice(0, -2))*2)));
+    transfer.css("left", Math.floor(Math.random() * (window.innerWidth - $(".transfer.template").width() - parseInt($(".transfer.template").css('padding-top').slice(0, -2))*2)));
+    $("body").append( transfer );
 
     var wait = $.Deferred();
 
     var increment = function() {
         // increment the percentage by some amount
-        var percent = parseInt(transaction.find("div.progressbar div.fill").data('width'));
+        var percent = parseInt(transfer.find("div.progressbar div.fill").data('width'));
         var increase = Math.floor(Math.random() * 10);
         percent = percent + increase;
 
-        transaction.find("div.progressbar div.fill").data('width', percent)
-        transaction.find("div.progressbar div.fill").animate( { width: percent + "%" }, 100 );
-        transaction.find("div.transferring span.percent").text(percent + "%");
+        transfer.find("div.progressbar div.fill").data('width', percent)
+        transfer.find("div.progressbar div.fill").animate( { width: percent + "%" }, 100 );
+        transfer.find("div.transferring span.percent").text(percent + "%");
 
         // increment password guess
-        var current = transaction.find("div.password span.password").text();
-        transaction.find("div.password span.password").text( current + "*" );
+        var current = transfer.find("div.password span.password").text();
+        transfer.find("div.password span.password").text( current + "*" );
 
         if (percent >= 100) {
             wait.resolve();
@@ -79,25 +78,36 @@ function add_transfer() {
 
     var spin = setInterval( function() {
         // flip the indicator
-        var current = transaction.find("span.rotate").text();
+        var current = transfer.find("span.rotate").text();
         var next = spinner[ (spinner.indexOf( current ) + 1) % spinner.length ];
-        transaction.find("span.rotate").text( next );
+        transfer.find("span.rotate").text( next );
     }, Math.floor(Math.random() * 300) );
+
 
     var blink = setInterval( function() {
         // blink the password toggle
-        transaction.find(".blink").toggle();
+        transfer.find(".blink").toggle();
     }, 500);
 
+    $("body").on('keydown', function(e) {
+        if (e.keyCode == 27) {
+            console.log("Transfer detected escape");
+            wait.reject();
+            clearInterval(spin);
+            clearInterval(blink);
+        }
+    });
 
     increment();
 
     wait.done( function() {
         clearInterval(spin);
-        transaction.fadeOut(100, function() {
-            transaction.remove();
+        transfer.fadeOut(100, function() {
+            transfer.remove();
             clearInterval(blink);
         });
+    }).fail( function() {
+        console.log("Wait detected failure");
     });
 
 }

@@ -70,3 +70,15 @@ div.transfer div.progressbar div.fill {
 div.transfer div.password {
     overflow: hidden;
 }
+
+div.sql {
+    padding: .5em;
+    border: 3px solid #b3ffaf;
+    background-color: #000;
+    width: 30em;
+    height: 10em;
+    position: absolute;
+    top: 0px;
+    overflow: hidden;
+    white-space: pre-wrap;
+}

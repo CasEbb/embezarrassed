@@ -111,6 +111,54 @@ function add_transfer() {
 
 }
 
+function add_sql() {
+    var ps1 = "isfc:~$ ";
+    var lines = ["SELECT 23ttrf;",
+                 "SELECT 'acct_num' where 'value' GREATER 10000000 ORDER BY 'value';",
+                 "CREATE TABLE tbl_1(id INT);\n  INSERT INTO tbl_1(id) VALUES(1);\n  INSERT INTO tbl_1(id) VALUES(2);",
+                 "UPDATE tbl_1 SET id=200 WHERE id=1;",
+                ];
+
+    var sql = $("div.sql.template").clone().removeClass("template");
+    sql.css("top", Math.floor(Math.random() * (window.innerHeight - $(".sql.template").height() - parseInt($(".sql.template").css('padding-right').slice(0, -2))*2)));
+    sql.css("left", Math.floor(Math.random() * (window.innerWidth - $(".sql.template").width() - parseInt($(".sql.template").css('padding-top').slice(0, -2))*2)));
+    sql.html(ps1);
+    $("body").append(sql);
+
+    var sql_interval = setInterval( function() {
+        // if the array is empty, or it has a single empty string in it, we're done
+        if (lines.length == 0 || (lines.length == 1 && lines[0] == "")) {
+            clearInterval(sql_interval);
+
+            sql.fadeOut(100, function() {
+                sql.remove();
+            });
+
+        }
+
+        // if the first line is empty, move on to the next line.
+        if (lines[0] == "") {
+            lines = lines.slice(1);
+            // append the prompt
+            sql.html( function(i, text) {
+                return text + "<br/>" + ps1;
+            });
+        }
+
+        // take a character off the front
+        var chr = lines[0][0];
+        lines[0] = lines[0].slice(1);
+
+        if (chr == "\n") {
+            chr = "<br/>";
+        }
+
+        sql.html( function(i, text) {
+            return text + chr;
+        });
+    }, 100);
+}
+
 
 $(document).ready( function() {
     var scroll_accounts = setInterval( function() {
@@ -136,8 +184,7 @@ $(document).ready( function() {
         // if there are more than 10 transfer windows, do nothing.
         // otherwise, set a new time in the future to create a new transfer window.
 
-        max_transfers = (window.innerHeight * window.innerWidth) / ($(".transfer.template").width() * $(".transfer.template").height()) / 2;
-
+        max_transfers = (window.innerHeight * window.innerWidth) / ($(".transfer.template").width() * $(".transfer.template").height()) / 5;
 
         if ($(".transfer").length <= max_transfers) {
             setTimeout( add_transfer, Math.floor(Math.random() * 3000) );
@@ -145,6 +192,17 @@ $(document).ready( function() {
 
     }, 500);
 
+    var scroll_sql = setInterval( function() {
+        // if there are more than 5 transfer windows, do nothing.
+        // otherwise, set a new time in the future to create a new transfer window.
+
+        max_sql = (window.innerHeight * window.innerWidth) / ($(".sql.template").width() * $(".sql.template").height()) / 10;
+
+        if ($(".sql").length <= max_sql) {
+            setTimeout( add_sql, Math.floor(Math.random() * 3000) );
+        }
+
+    }, 500);
 
 
     $("body").on('keydown', function(e) {

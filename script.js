@@ -1,7 +1,8 @@
 // TODO - doesn't work on Chrome on Android
-// todo - add the SQL stuff
+// TODO - make sure it doesn't zoom out on Opera as a result of adding new windows
 // todo - make the ascii pam scroll up in the background at some point
 // todo - typing "guest" ought to do something
+// todo - add cyril's reflection?
 
 String.prototype.random = function(count) {
     if (typeof(count) == "undefined") {

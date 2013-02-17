@@ -14,6 +14,8 @@ String.prototype.random = function(count) {
     return value;
 }
 
+var stop = false;
+
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var digits = "0123456789";
 var printable = "";
@@ -69,10 +71,10 @@ function add_transfer() {
         var current = transfer.find("div.password span.password").text();
         transfer.find("div.password span.password").text( current + "*" );
 
-        if (percent >= 100) {
+        if (percent >= 100 || stop) {
             wait.resolve();
         } else {
-            setTimeout( increment, Math.random() * 1000 );
+            setTimeout( increment, Math.random() * 500 );
         }
     }
 
@@ -91,7 +93,6 @@ function add_transfer() {
 
     $("body").on('keydown', function(e) {
         if (e.keyCode == 27) {
-            console.log("Transfer detected escape");
             wait.reject();
             clearInterval(spin);
             clearInterval(blink);
@@ -106,8 +107,6 @@ function add_transfer() {
             transfer.remove();
             clearInterval(blink);
         });
-    }).fail( function() {
-        console.log("Wait detected failure");
     });
 
 }
@@ -137,7 +136,10 @@ $(document).ready( function() {
         // if there are more than 10 transfer windows, do nothing.
         // otherwise, set a new time in the future to create a new transfer window.
 
-        if ($(".transfer").length <= 10) {
+        max_transfers = (window.innerHeight * window.innerWidth) / ($(".transfer.template").width() * $(".transfer.template").height()) / 2;
+
+
+        if ($(".transfer").length <= max_transfers) {
             setTimeout( add_transfer, Math.floor(Math.random() * 3000) );
         }
 
@@ -147,6 +149,7 @@ $(document).ready( function() {
 
     $("body").on('keydown', function(e) {
         if (e.keyCode == 27) {
+            stop = true;
             clearInterval(scroll_accounts);
             clearInterval(scroll_transfers);
         }

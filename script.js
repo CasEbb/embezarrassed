@@ -185,7 +185,7 @@ $(document).ready( function() {
         // if there are more than 10 transfer windows, do nothing.
         // otherwise, set a new time in the future to create a new transfer window.
 
-        max_transfers = (window.innerHeight * window.innerWidth) / ($(".transfer.template").width() * $(".transfer.template").height()) / 5;
+        max_transfers = Math.max(1, (window.innerHeight * window.innerWidth) / ($(".transfer.template").width() * $(".transfer.template").height()) / 5);
 
         if ($(".transfer").length <= max_transfers) {
             setTimeout( add_transfer, Math.floor(Math.random() * 3000) );
@@ -197,7 +197,7 @@ $(document).ready( function() {
         // if there are more than 5 transfer windows, do nothing.
         // otherwise, set a new time in the future to create a new transfer window.
 
-        max_sql = (window.innerHeight * window.innerWidth) / ($(".sql.template").width() * $(".sql.template").height()) / 10;
+        max_sql = Math.max(1, (window.innerHeight * window.innerWidth) / ($(".sql.template").width() * $(".sql.template").height()) / 10);
 
         if ($(".sql").length <= max_sql) {
             setTimeout( add_sql, Math.floor(Math.random() * 3000) );
